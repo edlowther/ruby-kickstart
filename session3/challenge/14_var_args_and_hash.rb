@@ -21,11 +21,61 @@
 # problem_14 2,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => true
 # problem_14 3,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => false
 
-def problem_14
+def problem_14(*numbers, problem_hash)
+  p numbers.length
+  if problem_hash.is_a? Fixnum
+    numbers.push(problem_hash)
+    problem_to_solve = :count_clumps
+  else
+    problem_to_solve = problem_hash[:problem]
+  end
+  if problem_to_solve == :count_clumps
+    p numbers
+    if numbers.length == 0
+      0
+    else
+      count_clumps(*numbers)
+    end
+  else
+    same_ends(*numbers)
+  end
 end
 
-def same_ends
+def same_ends(*numbers)
+  n = numbers.shift
+  if n == 0
+    true
+  elsif n > numbers.length
+    false
+  else
+    slices = numbers.each_cons(n).to_a
+    p slices
+    slices[0] == slices[-1]
+  end
 end
 
-def count_clumps
+def count_clumps(*numbers)
+  slices = []
+  p numbers
+  numbers.each_cons(2) do |x|
+    if slices.length == 0
+      slices.push(x)
+    else
+      if !(x[0] == x[1] and x == slices[-1])
+        slices.push(x)
+      end
+    end
+  end
+  p slices
+  count = 0
+  slices.each do |x|
+    if x[0] == x[1]
+      count += 1
+    end
+  end
+  count
 end
+# problem_14 1, 2, 2, 3, 4, 4, :problem => :count_clumps
+# problem_14
+# p problem_14 1, 2, 2, 3, 4, 4
+# p problem_14 1,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends
