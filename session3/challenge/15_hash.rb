@@ -38,3 +38,30 @@
 # middle head                        # => 3
 # head = {:data => 6, :next => head}
 # middle head                        # => 3
+
+def middle(linked_list)
+
+  def count_nodes(linked_list, count=0)
+    if linked_list
+      count += 1
+      count = count_nodes(linked_list[:next], count)
+    end
+    count
+  end
+
+  def find_middle(linked_list, target)
+    if target > 1
+      find_middle(linked_list[:next], target-1)
+    else
+      linked_list[:data]
+    end
+  end
+
+  length = count_nodes(linked_list)
+  if length == 2
+    find_middle(linked_list, target=2)
+  else
+    target = (length/2.0 + 1).floor
+    find_middle(linked_list, target=target)
+  end
+end
