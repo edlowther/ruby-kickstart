@@ -28,6 +28,23 @@
 #
 # create it from scratch :)
 
+def extend_path(path_data, path, paths)
+  if path_data.is_a? Hash
+    path_data.each do |k, v|
+      path_copy = path
+      path_copy += k + '/'
+      extend_path(v, path_copy, paths)
+    end
+  elsif path_data.is_a? Array
+    path_data.each do |x|
+      paths.push(path + x)
+    end
+  end
+  paths
+end
 
-def pathify
+def pathify(path_data)
+  paths = []
+  path = '/'
+  path = extend_path(path_data, path, paths)
 end
