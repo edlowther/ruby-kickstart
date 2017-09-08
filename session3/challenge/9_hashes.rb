@@ -29,4 +29,31 @@
 # shared [1,2,3], [3,2,1]            # => [{1=>[true, true], 2=>[true, true], 3=>[true, true]}, [1, 2, 3]]
 
 def shared(a, b)
+  data = {}
+  union = []
+  c = a + b
+  c.each do |x|
+    data[x] = []
+
+    x_in_a = a.include?(x)
+    if x_in_a
+      data[x].push(true)
+    else
+      data[x].push(nil)
+    end
+
+    x_in_b = b.include?(x)
+    if x_in_b
+      data[x].push(true)
+    else
+      data[x].push(nil)
+    end
+
+    if x_in_a and x_in_b
+      if !union.include?(x)
+        union.push(x)
+      end
+    end
+  end
+  [data, union]
 end
