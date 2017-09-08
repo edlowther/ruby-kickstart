@@ -52,5 +52,27 @@
 #   end
 # end       # => ["a", "m", "r", 1, 3, 4, 9, 2.5, 9.0, 25.8]
 
-def your_sort
+def your_sort(values, &block)
+  if !block
+    block = proc{|a,b| a <=> b}
+  end
+  result = []
+  if values.length > 1
+    values.each do |x|
+      if result.length == 0
+        result.push(x)
+      else
+        correct_index = 0
+        result.each do |y|
+          if (block.call y, x) == -1
+            correct_index += 1
+          end
+        end
+        result.insert(correct_index, x)
+      end
+    end
+    result
+  else
+    values
+  end
 end
