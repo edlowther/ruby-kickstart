@@ -30,5 +30,14 @@
 # end
 
 
-def array_init
+def array_init(array_size=5, &code)
+  result = Array.new(array_size)
+  result.map!.with_index do |x, i|
+    if code
+      code.call i
+    else
+      (i * 100).to_s
+    end
+  end
+  result
 end
